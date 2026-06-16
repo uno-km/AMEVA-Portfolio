@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    * {
+      outline: none !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+    html, body {
+      background-color: #ffffff;
+      margin: 0;
+      padding: 20px;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .mermaid {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="mermaid">
+flowchart TD
+    classDef startEnd fill:#2563eb,stroke:#1d4ed8,stroke-width:2px,color:#ffffff;
+    classDef stage fill:#0d9488,stroke:#0f766e,stroke-width:1px,color:#ffffff;
+    classDef loop fill:#9d174d,stroke:#831843,stroke-width:1px,color:#ffffff;
+
+    Start([벤치마크 시작]):::startEnd --> DockerBoot[Docker 인스턴스 파괴 후 Clean State 새 환경 생성]:::stage
+    DockerBoot --> ModelLoad[피평가 경량 모델 로드]
+    ModelLoad --> RunHarness[수학 연산 및 코딩 Harness 문제 주입]
+    RunHarness --> RegexCheck[1차 정규식 검증 표 대조 및 결과 필터링]:::stage
+    RegexCheck --> UnloadModel[메모리 고갈 방지 위해 피평가 모델 강제 해제 Offload]:::loop
+    UnloadModel --> LoadJudge[채점용 AI 채점 에이전트 로드]
+    LoadJudge --> JudgeScore[정성 평가 표 기반 채점 및 피드백 생성]:::stage
+    JudgeScore --> ExportReport[AI 보고서 요약 및 docx 결과 리포트 추출]:::startEnd
+  </div>
+  <script>
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'default',
+      flowchart: {
+        useMaxWidth: false,
+        htmlLabels: true
+      }
+    });
+  </script>
+</body>
+</html>
